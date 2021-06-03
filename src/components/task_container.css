@@ -1,0 +1,42 @@
+.num-tasks {
+  color: #F3477A;
+}
+
+.form-control {
+  display: flex;
+  justify-content: center;
+}
+
+.task {
+  padding: 0.25rem;
+  padding-left: 1rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-color: transparent;
+  font-size: 1rem;
+  flex: 1 0 auto;
+}
+
+.add-btn {
+  background: #884CB2;
+  border-color: transparent;
+  flex: 0 0 5rem;
+  display: grid;
+  align-items: center;
+  padding: 0.25rem;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  cursor: pointer;
+  content: #FFF;
+  transition: all 0.3s linear;
+  font-size: 0.85rem;
+}
+.add-btn:hover {
+  background: #a070c1;
+}
+
+.task-list {
+  margin-top: 2rem;
+}

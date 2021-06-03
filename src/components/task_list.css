@@ -1,0 +1,30 @@
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 1rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+}
+
+.edit-btn,
+.delete-btn {
+  background: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  font-size: 0.7rem;
+  margin: 0 0.15rem;
+}
+.edit-btn {
+  color: lightgreen;
+}
+.edit-btn:hover {
+  color: green;
+}
+.delete-btn {
+  color: lightcoral;
+}
+.delete-btn:hover {
+  color: red;
+}
