@@ -1,3 +1,5 @@
+import taskActionTypes from "./taskConstants"
+
 const initialState = {
   loading: false,
   tasks: [],
@@ -7,26 +9,26 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOADING":
+    case taskActionTypes.LOADING:
       return {
         ...state,
         loading: true,
       }
-    case "SUCCESS":
+    case taskActionTypes.SUCCESS:
       return {
         ...state,
         loading: false,
         tasks: action.payload,
         error: "",
       }
-    case "FAILURE":
+    case taskActionTypes.FAILURE:
       return {
         ...state,
         loading: false,
         tasks: [],
         error: action.payload,
       }
-    case "ADD":
+    case taskActionTypes.ADD:
       const tasks = state.tasks
       state.tasks.unshift(action.payload)
       return {
@@ -34,22 +36,22 @@ const reducer = (state = initialState, action) => {
         tasks: tasks,
         editID: action.payload.id,
       }
-    case "DELETE":
+    case taskActionTypes.DELETE:
       return {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload),
       }
-    case "DELETE_FAILURE":
+    case taskActionTypes.DELETE_FAILURE:
       return {
         ...state,
         error: action.payload,
       }
-    case "EDITING":
+    case taskActionTypes.EDITING:
       return {
         ...state,
         editID: action.payload,
       }
-    case "EDIT":
+    case taskActionTypes.EDIT:
       return {
         ...state,
         tasks: state.tasks.map(task =>
@@ -58,7 +60,7 @@ const reducer = (state = initialState, action) => {
         editID: null,
         error: "",
       }
-    case "EDIT_FAILURE":
+    case taskActionTypes.EDIT_FAILURE:
       return {
         ...state,
         editID: null,

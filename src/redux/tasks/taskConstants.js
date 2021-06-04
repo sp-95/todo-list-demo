@@ -1,0 +1,13 @@
+const taskActionTypes = {
+  LOADING: "LOADING",
+  SUCCESS: "SUCCESS",
+  FAILURE: "FAILURE",
+  ADD: "ADD",
+  DELETE: "DELETE",
+  DELETE_FAILURE: "DELETE_FAILURE",
+  EDITING: "EDITING",
+  EDIT: "EDIT",
+  EDIT_FAILURE: "EDIT_FAILURE"
+}
+
+export default taskActionTypes

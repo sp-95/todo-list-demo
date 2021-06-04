@@ -1,117 +1,112 @@
 import axios from "axios"
+import taskActionTypes from "./taskConstants"
 
 const url = "http://localhost:8000/tasks"
 
 export const fetchTasks = () => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(loading())
-    axios
-      .get(url)
-      .then(response => {
-        const data = response.data
-        dispatch(fetchSuccess(data))
-      })
-      .catch(error => {
-        dispatch(fetchFailed(error.message))
-      })
+    try {
+      const { data } = await axios.get(url)
+      dispatch(fetchSuccess(data))
+    } catch (error) {
+      dispatch(fetchFailed(error.message))
+    }
   }
 }
 
 const loading = () => {
   return {
-    type: "LOADING",
+    type: taskActionTypes.LOADING,
   }
 }
 
 const fetchSuccess = tasks => {
   return {
-    type: "SUCCESS",
+    type: taskActionTypes.SUCCESS,
     payload: tasks,
   }
 }
 
 const fetchFailed = error => {
   return {
-    type: "FAILURE",
+    type: taskActionTypes.FAILURE,
     payload: error,
   }
 }
 
 export const addTask = task => {
   return {
-    type: "ADD",
+    type: taskActionTypes.ADD,
     payload: task,
   }
 }
 
 export const deleteTask = id => {
-  return dispatch => {
-    axios
-      .delete(url + "/" + id)
-      .then(() => {
-        dispatch(deleteSuccess(id))
-      })
-      .catch(error => {
-        dispatch(deleteFailed(error.message))
-      })
+  return async dispatch => {
+    try {
+      await axios.delete(`${url}/${id}`)
+      dispatch(deleteSuccess(id))
+    } catch (error) {
+      dispatch(deleteFailed(error.message))
+    }
   }
 }
 
 const deleteSuccess = id => {
   return {
-    type: "DELETE",
+    type: taskActionTypes.DELETE,
     payload: id,
   }
 }
 
 const deleteFailed = error => {
   return {
-    type: "DELETE_FAILURE",
+    type: taskActionTypes.DELETE_FAILURE,
     payload: error,
   }
 }
 
+const postTask = task => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.post(url, task)
+      dispatch(editSuccess(data))
+    } catch (error) {
+      dispatch(editFailed(error.message))
+    }
+  }
+}
+
 export const editTask = task => {
-  return dispatch => {
-    axios
-      .put(url + "/" + task.id, task)
-      .then(response => {
-        const data = response.data
-        dispatch(editSuccess(data))
-      })
-      .catch(error => {
-        if (error.response.status === 404) {
-          axios
-            .post(url, task)
-            .then(response => {
-              const data = response.data
-              dispatch(editSuccess(data))
-            })
-            .catch(error => {
-              dispatch(editFailed(error.message))
-            })
-        } else dispatch(editFailed(error.message))
-      })
+  return async dispatch => {
+    try {
+      const { data } = await axios.put(`${url}/${task.id}`, task)
+      dispatch(editSuccess(data))
+    } catch (error) {
+      if (error.response.status === 404) dispatch(postTask(task))
+      else dispatch(editFailed(error.message))
+    }
   }
 }
 
 export const editing = id => {
   return {
-    type: "EDITING",
+    type: taskActionTypes.EDITING,
     payload: id,
   }
 }
 
 const editSuccess = task => {
   return {
-    type: "EDIT",
+    type: taskActionTypes.EDIT,
     payload: task,
   }
 }
 
 const editFailed = error => {
   return {
-    type: "EDIT_FAILURE",
+    type: taskActionTypes.EDIT_FAILURE,
     payload: error,
   }
 }
