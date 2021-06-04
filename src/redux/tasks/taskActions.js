@@ -115,13 +115,3 @@ const editFailed = error => {
     payload: error,
   }
 }
-
-export const setCompleted = (id, completed) => {
-  return {
-    type: "COMPLETED",
-    payload: {
-      id: id,
-      completed: completed,
-    },
-  }
-}

@@ -64,14 +64,6 @@ const reducer = (state = initialState, action) => {
         editID: null,
         error: action.payload,
       }
-    case "COMPLETED":
-      const { id, completed } = action.payload
-      return {
-        ...state,
-        tasks: state.tasks.map(task =>
-          task.id === id ? { ...task, completed: completed } : task
-        ),
-      }
     default:
       return state
   }

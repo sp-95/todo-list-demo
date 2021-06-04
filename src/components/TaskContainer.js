@@ -57,11 +57,11 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
         <div className="task-list">
           <h3>On Hold</h3>
           {onHoldTasks.map(task => (
-            <Task key={task.id} {...task} />
+            <Task key={task.id} task={task} />
           ))}
           <h3>Completed</h3>
           {completedTasks.map(task => (
-            <Task key={task.id} {...task} />
+            <Task key={task.id} task={task} />
           ))}
         </div>
       )}

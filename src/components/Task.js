@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
-import { deleteTask, editTask, editing, setCompleted } from "../redux"
+import { deleteTask, editTask, editing } from "../redux"
 import "./task.css"
 
-const Task = ({ taskData, id, title, completed }) => {
+const Task = ({ taskData, task }) => {
+  const { id, title, completed } = task
   const { editID } = taskData
   const dispatch = useDispatch()
   const [taskTitle, setTaskTitle] = useState(title)
@@ -12,14 +13,18 @@ const Task = ({ taskData, id, title, completed }) => {
   const handleEdit = e => {
     e.preventDefault()
 
-    var editedTask = taskData.tasks.find(task => task.id === editID)
     if (taskTitle) {
-      editedTask["title"] = taskTitle
-      dispatch(editTask(editedTask))
+      task["title"] = taskTitle
+      dispatch(editTask(task))
     } else {
       if (!title) dispatch(deleteTask(id))
-      else dispatch(editTask(editedTask))
+      else dispatch(editTask(task))
     }
+  }
+
+  const handleCheck = ({ target }) => {
+    task["completed"] = target.checked
+    dispatch(editTask(task))
   }
 
   const escFunction = useCallback(
@@ -48,7 +53,7 @@ const Task = ({ taskData, id, title, completed }) => {
           type="checkbox"
           className="task-status"
           checked={completed}
-          onChange={({ target }) => dispatch(setCompleted(id, target.checked))}
+          onChange={handleCheck}
         />
         {id === editID ? (
           <form className="task-form" onSubmit={handleEdit}>
