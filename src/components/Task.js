@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
-import { deleteTask, editTask, isEditing, setCompleted } from "../redux"
+import { deleteTask, editTask, editing, setCompleted } from "../redux"
 import "./task.css"
 
-const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
+const Task = ({ taskData, id, title, completed }) => {
   const { editID } = taskData
   const dispatch = useDispatch()
   const [taskTitle, setTaskTitle] = useState(title)
@@ -27,7 +27,7 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
       if (keyCode === 27) {
         setTaskTitle(title)
         if (!title) dispatch(deleteTask(id))
-        else dispatch(isEditing(null))
+        else dispatch(editing(null))
       }
     },
     [dispatch, id, title]
@@ -62,7 +62,7 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
             />
           </form>
         ) : (
-          <p onDoubleClick={() => dispatch(isEditing(id))}>{title}</p>
+          <p onDoubleClick={() => dispatch(editing(id))}>{title}</p>
         )}
         <div>
           <button

@@ -39,6 +39,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload),
       }
+    case "DELETE_FAILURE":
+      return {
+        ...state,
+        error: action.payload,
+      }
+    case "EDITING":
+      return {
+        ...state,
+        editID: action.payload,
+      }
     case "EDIT":
       return {
         ...state,
@@ -46,11 +56,13 @@ const reducer = (state = initialState, action) => {
           task.id === action.payload.id ? action.payload : task
         ),
         editID: null,
+        error: "",
       }
-    case "EDITING":
+    case "EDIT_FAILURE":
       return {
         ...state,
-        editID: action.payload,
+        editID: null,
+        error: action.payload,
       }
     case "COMPLETED":
       const { id, completed } = action.payload

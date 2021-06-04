@@ -5,6 +5,7 @@ import Loading from "./Loading"
 import { FaRegPlusSquare } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
 import { fetchTasks, addTask } from "../redux"
+import { v4 as uuidv4 } from "uuid"
 
 const TaskContainer = ({ taskData, fetchTasks }) => {
   const { loading, tasks } = taskData
@@ -16,7 +17,7 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
 
   const handleAdd = () => {
     const newTask = {
-      id: Date.now(),
+      id: uuidv4(),
       title: "",
       completed: false,
       status: "Pending",
