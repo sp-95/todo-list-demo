@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import "./task_container.css"
-import TaskList from "./TaskList"
+import Task from "./Task"
 import Loading from "./Loading"
 import { FaPlusSquare } from "react-icons/fa"
-
-const url = "http://localhost:8000/tasks"
+import { fetchTasks } from "../services"
 
 const TaskContainer = () => {
   const [loading, setLoading] = useState(true)
@@ -14,13 +13,8 @@ const TaskContainer = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(url)
-      const data = await response.json()
-      if (data) {
-        setTasks(data)
-      } else {
-        setTasks([])
-      }
+      const data = await fetchTasks()
+      setTasks(data)
     } catch (error) {
       console.log(error)
     }
@@ -43,9 +37,12 @@ const TaskContainer = () => {
     }
     setNewTask(tasks.unshift(taskToAdd))
     setTask("")
-    console.log("Task Added")
 
     setNewTask(false)
+  }
+
+  const handleDelete = id => {
+    setTasks(tasks.filter(task => task.id !== id))
   }
 
   return (
@@ -83,13 +80,17 @@ const TaskContainer = () => {
           {tasks.length
             ? tasks
                 .filter(({ completed }) => !completed)
-                .map(task => <TaskList key={task.id} {...task} />)
+                .map(task => (
+                  <Task key={task.id} {...task} handleDelete={handleDelete} />
+                ))
             : ""}
           <h3>Completed</h3>
           {tasks.length
             ? tasks
                 .filter(({ completed }) => completed)
-                .map(task => <TaskList key={task.id} {...task} />)
+                .map(task => (
+                  <Task key={task.id} {...task} handleDelete={handleDelete} />
+                ))
             : ""}
         </div>
       )}

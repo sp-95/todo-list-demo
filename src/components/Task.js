@@ -1,8 +1,7 @@
-import React from "react"
 import { FaEdit, FaTrash } from "react-icons/fa"
-import "./task_list.css"
+import "./task.css"
 
-const TaskList = ({ title, completed }) => {
+const Task = ({ id, title, completed, handleDelete }) => {
   return (
     <div className={"task-item" + (completed ? " completed" : "")}>
       <input type="checkbox" className="task-status" />
@@ -11,7 +10,7 @@ const TaskList = ({ title, completed }) => {
         <button className="edit-btn" onClick={() => alert("Edited")}>
           <FaEdit />
         </button>
-        <button className="delete-btn" onClick={() => alert("Deleted")}>
+        <button className="delete-btn" onClick={() => handleDelete(id)}>
           <FaTrash />
         </button>
       </div>
@@ -19,4 +18,4 @@ const TaskList = ({ title, completed }) => {
   )
 }
 
-export default TaskList
+export default Task
