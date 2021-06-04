@@ -46,6 +46,13 @@ export const addTask = task => {
   }
 }
 
+export const deleteTask = id => {
+  return {
+    type: "DELETE",
+    payload: id,
+  }
+}
+
 export const setCompleted = (id, completed) => {
   return {
     type: "COMPLETED",

@@ -1,7 +1,7 @@
 import React from "react"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { useDispatch } from "react-redux"
-import { setCompleted } from "../redux"
+import { deleteTask, setCompleted } from "../redux"
 import "./task_list.css"
 
 const Task = ({ id, title, completed }) => {
@@ -20,7 +20,7 @@ const Task = ({ id, title, completed }) => {
         <button className="edit-btn" onClick={() => alert("Edited")}>
           <FaEdit />
         </button>
-        <button className="delete-btn" onClick={() => alert("Deleted")}>
+        <button className="delete-btn" onClick={() => dispatch(deleteTask(id))}>
           <FaTrash />
         </button>
       </div>

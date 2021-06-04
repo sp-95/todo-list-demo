@@ -36,6 +36,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         tasks: tasks,
       }
+    case "DELETE":
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.payload),
+      }
     case "COMPLETED":
       const { id, completed } = action.payload
       return {
