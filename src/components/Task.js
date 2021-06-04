@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { FaTrash } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
 import { deleteTask, editTask, isEditing, setCompleted } from "../redux"
@@ -21,6 +21,24 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
       else dispatch(editTask(editedTask))
     }
   }
+
+  const escFunction = useCallback(
+    ({ keyCode }) => {
+      if (keyCode === 27) {
+        if (!title) dispatch(deleteTask(id))
+        else dispatch(isEditing(null))
+      }
+    },
+    [dispatch, id, title]
+  )
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false)
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false)
+    }
+  }, [escFunction])
 
   return (
     <div className={"task-item" + (completed ? " completed" : "")}>
