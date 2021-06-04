@@ -23,7 +23,8 @@
   display: flex;
 }
 
-.task {
+.task-input {
+  width: 100%;
   padding: 0.25rem;
   padding-left: 1rem;
   border-top-left-radius: 0.25rem;

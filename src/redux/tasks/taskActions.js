@@ -5,7 +5,8 @@ const url = "http://localhost:8000/tasks"
 export const fetchTasks = () => {
   return dispatch => {
     dispatch(loading())
-    axios.get(url)
+    axios
+      .get(url)
       .then(response => {
         // response.data is the users
         const data = response.data
@@ -42,5 +43,15 @@ export const addTask = task => {
   return {
     type: "ADD",
     payload: task,
+  }
+}
+
+export const setCompleted = (id, completed) => {
+  return {
+    type: "COMPLETED",
+    payload: {
+      id: id,
+      completed: completed,
+    },
   }
 }

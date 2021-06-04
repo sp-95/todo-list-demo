@@ -36,6 +36,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         tasks: tasks,
       }
+    case "COMPLETED":
+      const { id, completed } = action.payload
+      return {
+        ...state,
+        tasks: state.tasks.map(task =>
+          task.id === id ? { ...task, completed: completed } : task
+        ),
+      }
     default:
       return state
   }

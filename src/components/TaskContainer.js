@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "./task_container.css"
-import TaskList from "./TaskList"
+import Task from "./Task"
 import Loading from "./Loading"
 import { FaPlusSquare } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
@@ -16,7 +16,7 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
 
   useEffect(() => {
     fetchTasks()
-  }, [])
+  }, [fetchTasks])
 
   const handleAdd = e => {
     e.preventDefault()
@@ -48,10 +48,10 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
         <div className="task-list">
           <h3>On Hold</h3>
           {newTask ? (
-            <form className="add-task" onSubmit={handleAdd}>
+            <form className="task-form" onSubmit={handleAdd}>
               <input
                 type="text"
-                className="task"
+                className="task-input"
                 placeholder="Create a new task"
                 value={task}
                 onChange={({ target }) => setTask(target.value)}
@@ -63,13 +63,13 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
           {tasks.length
             ? tasks
                 .filter(({ completed }) => !completed)
-                .map(task => <TaskList key={task.id} {...task} />)
+                .map(task => <Task key={task.id} {...task} />)
             : ""}
           <h3>Completed</h3>
           {tasks.length
             ? tasks
                 .filter(({ completed }) => completed)
-                .map(task => <TaskList key={task.id} {...task} />)
+                .map(task => <Task key={task.id} {...task} />)
             : ""}
         </div>
       )}
