@@ -3,45 +3,25 @@ import "./task_container.css"
 import TaskList from "./TaskList"
 import Loading from "./Loading"
 import { FaPlusSquare } from "react-icons/fa"
+import { connect, useDispatch } from "react-redux"
+import { fetchTasks } from "../redux"
+import { addTask } from "../redux"
 
-const url = "http://localhost:8000/tasks"
+const TaskContainer = ({ taskData, fetchTasks }) => {
+  const dispatch = useDispatch()
 
-const TaskContainer = () => {
-  const [loading, setLoading] = useState(true)
-  const [tasks, setTasks] = useState([])
+  const { loading, tasks } = taskData
   const [newTask, setNewTask] = useState(false)
   const [task, setTask] = useState("")
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(url)
-      const data = await response.json()
-      if (data) {
-        setTasks(data)
-      } else {
-        setTasks([])
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setLoading(false)
-  }
-
   useEffect(() => {
-    fetchData()
+    fetchTasks()
   }, [])
 
   const handleAdd = e => {
     e.preventDefault()
 
-    const taskToAdd = {
-      id: Date.now(),
-      title: task,
-      completed: false,
-      status: "Pending",
-      priority: "Normal",
-    }
-    setNewTask(tasks.unshift(taskToAdd))
+    dispatch(addTask(task))
     setTask("")
     console.log("Task Added")
 
@@ -97,4 +77,16 @@ const TaskContainer = () => {
   )
 }
 
-export default TaskContainer
+const mapStateToProps = state => {
+  return {
+    taskData: state.task,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTasks: () => dispatch(fetchTasks()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer)
