@@ -28,3 +28,7 @@
 .delete-btn:hover {
   color: red;
 }
+
+.completed {
+  color: #dcd9d9;
+}
