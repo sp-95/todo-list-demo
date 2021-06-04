@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
-import { FaPlusSquare } from "react-icons/fa"
+import { FaRegPlusSquare } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
 import { fetchTasks, addTask } from "../redux"
 
@@ -46,7 +46,8 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
           on hold
         </h1>
         <button className="add-btn" onClick={handleAdd}>
-          <FaPlusSquare /> Add New
+          <FaRegPlusSquare />
+          &nbsp; Add New
         </button>
       </div>
       {loading ? (

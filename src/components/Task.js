@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { FaTrash } from "react-icons/fa"
+import { FaMinusCircle } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
 import { deleteTask, editTask, isEditing, setCompleted } from "../redux"
 import "./task.css"
@@ -69,7 +69,7 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
             className="delete-btn"
             onClick={() => dispatch(deleteTask(id))}
           >
-            <FaTrash />
+            <FaMinusCircle />
           </button>
         </div>
       </div>
