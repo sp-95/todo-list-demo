@@ -25,6 +25,7 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
   const escFunction = useCallback(
     ({ keyCode }) => {
       if (keyCode === 27) {
+        setTaskTitle(title)
         if (!title) dispatch(deleteTask(id))
         else dispatch(isEditing(null))
       }

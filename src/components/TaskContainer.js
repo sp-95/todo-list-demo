@@ -25,15 +25,25 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
     dispatch(addTask(newTask))
   }
 
+  var onHoldTasks, completedTasks
+  if (tasks.length) {
+    onHoldTasks = tasks.filter(({ completed }) => !completed)
+    completedTasks = tasks.filter(({ completed }) => completed)
+  } else {
+    onHoldTasks = []
+    completedTasks = []
+  }
+
   return (
     <section className="task-container">
       <div className="title">
         <h1>
           You've got{" "}
           <span className="num-tasks">
-            {tasks.length || "No"} task{tasks.length === 1 ? "" : "s"}
+            {onHoldTasks.length || "No"} task
+            {onHoldTasks.length === 1 ? "" : "s"}
           </span>{" "}
-          today
+          on hold
         </h1>
         <button className="add-btn" onClick={handleAdd}>
           <FaPlusSquare /> Add New
@@ -44,17 +54,13 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
       ) : (
         <div className="task-list">
           <h3>On Hold</h3>
-          {tasks.length
-            ? tasks
-                .filter(({ completed }) => !completed)
-                .map(task => <Task key={task.id} {...task} />)
-            : ""}
+          {onHoldTasks.map(task => (
+            <Task key={task.id} {...task} />
+          ))}
           <h3>Completed</h3>
-          {tasks.length
-            ? tasks
-                .filter(({ completed }) => completed)
-                .map(task => <Task key={task.id} {...task} />)
-            : ""}
+          {completedTasks.map(task => (
+            <Task key={task.id} {...task} />
+          ))}
         </div>
       )}
     </section>
