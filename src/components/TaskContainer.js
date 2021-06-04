@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
 import { FaPlusSquare } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
-import { fetchTasks } from "../redux"
-import { addTask } from "../redux"
+import { fetchTasks, addTask } from "../redux"
 
 const TaskContainer = ({ taskData, fetchTasks }) => {
-  const dispatch = useDispatch()
-
   const { loading, tasks } = taskData
-  const [newTask, setNewTask] = useState(false)
-  const [task, setTask] = useState("")
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetchTasks()
   }, [fetchTasks])
 
-  const handleAdd = e => {
-    e.preventDefault()
-
-    dispatch(addTask(task))
-    setTask("")
-    console.log("Task Added")
-
-    setNewTask(false)
+  const handleAdd = () => {
+    const newTask = {
+      id: Date.now(),
+      title: "",
+      completed: false,
+      status: "Pending",
+      priority: "Normal",
+    }
+    dispatch(addTask(newTask))
   }
 
   return (
@@ -38,7 +35,7 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
           </span>{" "}
           today
         </h1>
-        <button className="add-btn" onClick={() => setNewTask(true)}>
+        <button className="add-btn" onClick={handleAdd}>
           <FaPlusSquare /> Add New
         </button>
       </div>
@@ -47,19 +44,6 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
       ) : (
         <div className="task-list">
           <h3>On Hold</h3>
-          {newTask ? (
-            <form className="task-form" onSubmit={handleAdd}>
-              <input
-                type="text"
-                className="task-input"
-                placeholder="Create a new task"
-                value={task}
-                onChange={({ target }) => setTask(target.value)}
-              />
-            </form>
-          ) : (
-            ""
-          )}
           {tasks.length
             ? tasks
                 .filter(({ completed }) => !completed)

@@ -1,11 +1,26 @@
-import React from "react"
-import { FaEdit, FaTrash } from "react-icons/fa"
-import { useDispatch } from "react-redux"
-import { deleteTask, setCompleted } from "../redux"
+import React, { useState } from "react"
+import { FaTrash } from "react-icons/fa"
+import { connect, useDispatch } from "react-redux"
+import { deleteTask, editTask, setCompleted } from "../redux"
 import "./task_list.css"
 
-const Task = ({ id, title, completed }) => {
+const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
+  const { editID } = taskData
   const dispatch = useDispatch()
+  const [task, setTask] = useState(title)
+
+  const handleEdit = e => {
+    e.preventDefault()
+
+    var editedTask = taskData.tasks.find(task => task.id === editID)
+    if (task) {
+      editedTask["title"] = task
+      dispatch(editTask(editedTask))
+    } else {
+      if (!title) dispatch(deleteTask(id))
+      else dispatch(editTask(editedTask))
+    }
+  }
 
   return (
     <div className={"task-item" + (completed ? " completed" : "")}>
@@ -15,11 +30,20 @@ const Task = ({ id, title, completed }) => {
         checked={completed}
         onChange={({ target }) => dispatch(setCompleted(id, target.checked))}
       />
-      <p>{title}</p>
+      {id === editID ? (
+        <form className="task-form" onSubmit={handleEdit}>
+          <input
+            type="text"
+            className="task-input"
+            placeholder="Task Description"
+            value={task}
+            onChange={({ target }) => setTask(target.value)}
+          />
+        </form>
+      ) : (
+        <p>{title}</p>
+      )}
       <div>
-        <button className="edit-btn" onClick={() => alert("Edited")}>
-          <FaEdit />
-        </button>
         <button className="delete-btn" onClick={() => dispatch(deleteTask(id))}>
           <FaTrash />
         </button>
@@ -28,4 +52,10 @@ const Task = ({ id, title, completed }) => {
   )
 }
 
-export default Task
+const mapStateToProps = state => {
+  return {
+    taskData: state.task,
+  }
+}
+
+export default connect(mapStateToProps)(Task)

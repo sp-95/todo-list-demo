@@ -2,6 +2,7 @@ const initialState = {
   loading: false,
   tasks: [],
   error: "",
+  editID: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,33 +14,38 @@ const reducer = (state = initialState, action) => {
       }
     case "SUCCESS":
       return {
+        ...state,
         loading: false,
         tasks: action.payload,
         error: "",
       }
     case "FAILURE":
       return {
+        ...state,
         loading: false,
         tasks: [],
         error: action.payload,
       }
     case "ADD":
       const tasks = state.tasks
-      state.tasks.unshift({
-        id: Date.now(),
-        title: action.payload,
-        completed: false,
-        status: "Pending",
-        priority: "Normal",
-      })
+      state.tasks.unshift(action.payload)
       return {
         ...state,
         tasks: tasks,
+        editID: action.payload.id,
       }
     case "DELETE":
       return {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload),
+      }
+    case "EDIT":
+      return {
+        ...state,
+        tasks: state.tasks.map(task =>
+          task.id === action.payload.id ? action.payload : task
+        ),
+        editID: null,
       }
     case "COMPLETED":
       const { id, completed } = action.payload
