@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
-import { deleteTask, editTask, editing } from "../redux"
+import { deleteTask, editTask, editing, deleteTaskState } from "../redux"
 import "./task.css"
 
 const Task = ({ taskData, task }) => {
@@ -17,8 +17,8 @@ const Task = ({ taskData, task }) => {
       task["title"] = taskTitle
       dispatch(editTask(task))
     } else {
-      if (!title) dispatch(deleteTask(id))
-      else dispatch(editTask(task))
+      if (!title) dispatch(deleteTaskState(id))
+      else dispatch(editing(null))
     }
   }
 
@@ -31,7 +31,7 @@ const Task = ({ taskData, task }) => {
     ({ keyCode }) => {
       if (keyCode === 27) {
         setTaskTitle(title)
-        if (!title) dispatch(deleteTask(id))
+        if (!title) dispatch(deleteTaskState(id))
         else dispatch(editing(null))
       }
     },

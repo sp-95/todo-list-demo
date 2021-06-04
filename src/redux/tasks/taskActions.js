@@ -46,14 +46,14 @@ export const deleteTask = id => {
   return async dispatch => {
     try {
       await axios.delete(`${url}/${id}`)
-      dispatch(deleteSuccess(id))
+      dispatch(deleteTaskState(id))
     } catch (error) {
       dispatch(deleteFailed(error.message))
     }
   }
 }
 
-const deleteSuccess = id => {
+export const deleteTaskState = id => {
   return {
     type: taskActionTypes.DELETE,
     payload: id,
@@ -71,7 +71,7 @@ const postTask = task => {
   return async dispatch => {
     try {
       const { data } = await axios.post(url, task)
-      dispatch(editSuccess(data))
+      dispatch(editTaskState(data))
     } catch (error) {
       dispatch(editFailed(error.message))
     }
@@ -82,7 +82,7 @@ export const editTask = task => {
   return async dispatch => {
     try {
       const { data } = await axios.put(`${url}/${task.id}`, task)
-      dispatch(editSuccess(data))
+      dispatch(editTaskState(data))
     } catch (error) {
       if (error.response.status === 404) dispatch(postTask(task))
       else dispatch(editFailed(error.message))
@@ -97,7 +97,7 @@ export const editing = id => {
   }
 }
 
-const editSuccess = task => {
+export const editTaskState = task => {
   return {
     type: taskActionTypes.EDIT,
     payload: task,
