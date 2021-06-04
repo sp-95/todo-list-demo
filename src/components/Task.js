@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import { FaTrash } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
 import { deleteTask, editTask, isEditing, setCompleted } from "../redux"
-import "./task_list.css"
+import "./task.css"
 
 const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
   const { editID } = taskData
@@ -42,32 +42,38 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
   }, [escFunction])
 
   return (
-    <div className={"task-item" + (completed ? " completed" : "")}>
-      <input
-        type="checkbox"
-        className="task-status"
-        checked={completed}
-        onChange={({ target }) => dispatch(setCompleted(id, target.checked))}
-      />
-      {id === editID ? (
-        <form className="task-form" onSubmit={handleEdit}>
-          <input
-            type="text"
-            className="task-input"
-            placeholder="Task Description"
-            value={taskTitle}
-            onChange={({ target }) => setTaskTitle(target.value)}
-            autoFocus
-          />
-        </form>
-      ) : (
-        <p onDoubleClick={() => dispatch(isEditing(id))}>{title}</p>
-      )}
-      <div>
-        <button className="delete-btn" onClick={() => dispatch(deleteTask(id))}>
-          <FaTrash />
-        </button>
+    <div className="task-container">
+      <div className={"task-item" + (completed ? " completed" : "")}>
+        <input
+          type="checkbox"
+          className="task-status"
+          checked={completed}
+          onChange={({ target }) => dispatch(setCompleted(id, target.checked))}
+        />
+        {id === editID ? (
+          <form className="task-form" onSubmit={handleEdit}>
+            <input
+              type="text"
+              className="task-input"
+              placeholder="Task Description"
+              value={taskTitle}
+              onChange={({ target }) => setTaskTitle(target.value)}
+              autoFocus
+            />
+          </form>
+        ) : (
+          <p onDoubleClick={() => dispatch(isEditing(id))}>{title}</p>
+        )}
+        <div>
+          <button
+            className="delete-btn"
+            onClick={() => dispatch(deleteTask(id))}
+          >
+            <FaTrash />
+          </button>
+        </div>
       </div>
+      <hr />
     </div>
   )
 }

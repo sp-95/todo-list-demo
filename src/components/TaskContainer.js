@@ -35,7 +35,7 @@ const TaskContainer = ({ taskData, fetchTasks }) => {
   }
 
   return (
-    <section className="task-container">
+    <section className="section-center">
       <div className="title">
         <h1>
           You've got{" "}

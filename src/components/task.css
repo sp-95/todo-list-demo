@@ -8,19 +8,16 @@
   text-transform: capitalize;
 }
 
-.edit-btn,
+.task-container hr {
+  border: 1px solid #e0e0e0;
+}
+
 .delete-btn {
   background: transparent;
   border-color: transparent;
   cursor: pointer;
   font-size: 0.7rem;
   margin: 0 0.15rem;
-}
-.edit-btn {
-  color: lightgreen;
-}
-.edit-btn:hover {
-  color: green;
 }
 .delete-btn {
   color: lightcoral;
