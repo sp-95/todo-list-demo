@@ -39,9 +39,10 @@ const TaskContainer = () => {
       title: task,
       completed: false,
       status: "Pending",
-      priority: "Normal"
+      priority: "Normal",
     }
     setNewTask(tasks.unshift(taskToAdd))
+    setTask("")
     console.log("Task Added")
 
     setNewTask(false)
