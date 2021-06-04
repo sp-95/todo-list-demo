@@ -60,6 +60,13 @@ export const editTask = task => {
   }
 }
 
+export const isEditing = id => {
+  return {
+    type: "EDITING",
+    payload: id,
+  }
+}
+
 export const setCompleted = (id, completed) => {
   return {
     type: "COMPLETED",

@@ -1,20 +1,20 @@
 import React, { useState } from "react"
 import { FaTrash } from "react-icons/fa"
 import { connect, useDispatch } from "react-redux"
-import { deleteTask, editTask, setCompleted } from "../redux"
+import { deleteTask, editTask, isEditing, setCompleted } from "../redux"
 import "./task_list.css"
 
 const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
   const { editID } = taskData
   const dispatch = useDispatch()
-  const [task, setTask] = useState(title)
+  const [taskTitle, setTaskTitle] = useState(title)
 
   const handleEdit = e => {
     e.preventDefault()
 
     var editedTask = taskData.tasks.find(task => task.id === editID)
-    if (task) {
-      editedTask["title"] = task
+    if (taskTitle) {
+      editedTask["title"] = taskTitle
       dispatch(editTask(editedTask))
     } else {
       if (!title) dispatch(deleteTask(id))
@@ -36,12 +36,13 @@ const Task = ({ taskData, id = Date.now(), title = "", completed = false }) => {
             type="text"
             className="task-input"
             placeholder="Task Description"
-            value={task}
-            onChange={({ target }) => setTask(target.value)}
+            value={taskTitle}
+            onChange={({ target }) => setTaskTitle(target.value)}
+            autoFocus
           />
         </form>
       ) : (
-        <p>{title}</p>
+        <p onDoubleClick={() => dispatch(isEditing(id))}>{title}</p>
       )}
       <div>
         <button className="delete-btn" onClick={() => dispatch(deleteTask(id))}>

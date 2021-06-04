@@ -47,6 +47,11 @@ const reducer = (state = initialState, action) => {
         ),
         editID: null,
       }
+    case "EDITING":
+      return {
+        ...state,
+        editID: action.payload,
+      }
     case "COMPLETED":
       const { id, completed } = action.payload
       return {
