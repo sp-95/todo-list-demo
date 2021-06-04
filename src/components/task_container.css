@@ -19,9 +19,8 @@
   color: #f3477a;
 }
 
-.form-control {
+.title {
   display: flex;
-  justify-content: center;
 }
 
 .task {
@@ -38,15 +37,15 @@
   background: #884cb2;
   border-color: transparent;
   flex: 0 0 5rem;
-  display: grid;
+  display: flex;
   align-items: center;
-  padding: 0.25rem;
+  padding: auto;
+  margin: auto;
   text-transform: capitalize;
   letter-spacing: 2px;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-radius: 0.75rem;
   cursor: pointer;
-  content: #fff;
+  color: #fff;
   transition: all 0.3s linear;
   font-size: 0.85rem;
 }
