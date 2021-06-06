@@ -1,16 +1,9 @@
 import React, { useCallback, useEffect, useRef } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
-import { createTask, updateTask } from "../services"
+import { createTask, updateTask, deleteTask } from "../services"
 
-const Task = ({
-  task,
-  editID,
-  setEditID,
-  handleDelete,
-  deleteTaskState,
-  fetchData,
-}) => {
+const Task = ({ task, editID, setEditID, clearEditing, fetchData }) => {
   const { id, title, completed } = task
   const taskTitleRef = useRef(title)
 
@@ -25,10 +18,10 @@ const Task = ({
         else await createTask(task)
         fetchData()
       } catch (error) {
-        console.log(error)
+        console.log(error.message)
       }
-    } else if (!title) deleteTaskState(id)
-    setEditID(null)
+    }
+    clearEditing()
   }
 
   const handleCheck = async ({ target }) => {
@@ -37,19 +30,24 @@ const Task = ({
       await updateTask(task)
       fetchData()
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
+    }
+  }
+
+  const handleDelete = async id => {
+    try {
+      await deleteTask(id)
+      fetchData(id)
+    } catch (error) {
+      console.log(error.message)
     }
   }
 
   const escFunction = useCallback(
     ({ keyCode }) => {
-      if (keyCode === 27) {
-        taskTitleRef.current = ""
-        if (!title) deleteTaskState(id)
-        setEditID(null)
-      }
+      if (keyCode === 27) clearEditing()
     },
-    [id, title, deleteTaskState, setEditID]
+    [clearEditing]
   )
 
   useEffect(() => {

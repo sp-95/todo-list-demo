@@ -3,7 +3,7 @@ import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
 import { FaRegPlusSquare } from "react-icons/fa"
-import { deleteTask, readTasks } from "../services"
+import { readTasks } from "../services"
 import { v4 as uuidv4 } from "uuid"
 
 const TaskContainer = () => {
@@ -39,15 +39,10 @@ const TaskContainer = () => {
     setEditID(taskToAdd.id)
   }
 
-  const deleteTaskState = id => setTasks(tasks.filter(task => task.id !== id))
-
-  const handleDelete = async id => {
-    try {
-      await deleteTask(id)
-      deleteTaskState(id)
-    } catch (error) {
-      console.log(error.message)
-    }
+  const clearEditing = () => {
+    const task = tasks.find(task => task.id === editID)
+    if (!task.title) setTasks(tasks.filter(t => t.id !== task.id))
+    setEditID(null)
   }
 
   var onHoldTasks, completedTasks
@@ -86,8 +81,7 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              handleDelete={handleDelete}
-              deleteTaskState={deleteTaskState}
+              clearEditing={clearEditing}
               fetchData={fetchData}
             />
           ))}
@@ -98,8 +92,7 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              handleDelete={handleDelete}
-              deleteTaskState={deleteTaskState}
+              clearEditing={clearEditing}
               fetchData={fetchData}
             />
           ))}
