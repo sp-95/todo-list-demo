@@ -3,7 +3,7 @@ import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
 import { createTask, updateTask, deleteTask } from "../services"
 
-const Task = ({ task, editID, setEditID, clearEditing, fetchData }) => {
+const Task = ({ task, editID, setEditID, fetchData }) => {
   const { id, title, completed } = task
   const taskTitleRef = useRef(title)
 
@@ -16,12 +16,12 @@ const Task = ({ task, editID, setEditID, clearEditing, fetchData }) => {
         task["title"] = taskTitle
         if (title) await updateTask(task)
         else await createTask(task)
-        fetchData()
       } catch (error) {
         console.log(error.message)
       }
     }
-    clearEditing()
+    fetchData()
+    setEditID(null)
   }
 
   const handleCheck = async ({ target }) => {
@@ -45,9 +45,12 @@ const Task = ({ task, editID, setEditID, clearEditing, fetchData }) => {
 
   const escFunction = useCallback(
     ({ keyCode }) => {
-      if (keyCode === 27) clearEditing()
+      if (keyCode === 27) {
+        if (!title) fetchData()
+        setEditID(null)
+      }
     },
-    [clearEditing]
+    [fetchData, setEditID]
   )
 
   useEffect(() => {

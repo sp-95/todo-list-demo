@@ -39,12 +39,6 @@ const TaskContainer = () => {
     setEditID(taskToAdd.id)
   }
 
-  const clearEditing = () => {
-    const task = tasks.find(task => task.id === editID)
-    if (!task.title) setTasks(tasks.filter(t => t.id !== task.id))
-    setEditID(null)
-  }
-
   var onHoldTasks, completedTasks
   if (tasks.length) {
     onHoldTasks = tasks.filter(({ completed }) => !completed)
@@ -81,7 +75,6 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              clearEditing={clearEditing}
               fetchData={fetchData}
             />
           ))}
@@ -92,7 +85,6 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              clearEditing={clearEditing}
               fetchData={fetchData}
             />
           ))}
