@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react"
 import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
-import { FaPlusSquare } from "react-icons/fa"
-import { fetchTasks } from "../services"
+import { FaRegPlusSquare } from "react-icons/fa"
+import { createTask, deleteTask, readTasks, updateTask } from "../services"
+import { v4 as uuidv4 } from "uuid"
 
 const TaskContainer = () => {
   const [loading, setLoading] = useState(true)
   const [tasks, setTasks] = useState([])
-  const [newTask, setNewTask] = useState(false)
-  const [task, setTask] = useState("")
+  const [editID, setEditID] = useState(null)
 
   const fetchData = async () => {
     try {
-      const data = await fetchTasks()
+      const data = await readTasks()
       setTasks(data)
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
     setLoading(false)
   }
@@ -25,24 +25,57 @@ const TaskContainer = () => {
     fetchData()
   }, [])
 
-  const handleAdd = e => {
-    e.preventDefault()
-
+  const handleAdd = () => {
     const taskToAdd = {
-      id: Date.now(),
-      title: task,
+      id: uuidv4(),
+      title: "",
       completed: false,
       status: "Pending",
       priority: "Normal",
     }
-    setNewTask(tasks.unshift(taskToAdd))
-    setTask("")
-
-    setNewTask(false)
+    tasks.unshift(taskToAdd)
+    setTasks(tasks)
+    setEditID(taskToAdd.id)
   }
 
-  const handleDelete = id => {
-    setTasks(tasks.filter(task => task.id !== id))
+  const editTaskState = task => {
+    setTasks(tasks.map(t => (t.id === task.id ? task : t)))
+  }
+
+  const handleEdit = async task => {
+    try {
+      const data = await updateTask(task)
+      editTaskState(data)
+    } catch (error) {
+      if (error.response.status === 404) {
+        try {
+          const data = await createTask(task)
+          editTaskState(data)
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+    }
+  }
+
+  const deleteTaskState = id => setTasks(tasks.filter(task => task.id !== id))
+
+  const handleDelete = async id => {
+    try {
+      await deleteTask(id)
+      deleteTaskState(id)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  var onHoldTasks, completedTasks
+  if (tasks.length) {
+    onHoldTasks = tasks.filter(({ completed }) => !completed)
+    completedTasks = tasks.filter(({ completed }) => completed)
+  } else {
+    onHoldTasks = []
+    completedTasks = []
   }
 
   return (
@@ -55,8 +88,9 @@ const TaskContainer = () => {
           </span>{" "}
           today
         </h1>
-        <button className="add-btn" onClick={() => setNewTask(true)}>
-          <FaPlusSquare /> Add New
+        <button className="add-btn" onClick={handleAdd}>
+          <FaRegPlusSquare />
+          &nbsp; Add New
         </button>
       </div>
       {loading ? (
@@ -64,34 +98,29 @@ const TaskContainer = () => {
       ) : (
         <div className="task-list">
           <h3>On Hold</h3>
-          {newTask ? (
-            <form className="add-task" onSubmit={handleAdd}>
-              <input
-                type="text"
-                className="task"
-                placeholder="Create a new task"
-                value={task}
-                onChange={({ target }) => setTask(target.value)}
-              />
-            </form>
-          ) : (
-            ""
-          )}
-          {tasks.length
-            ? tasks
-                .filter(({ completed }) => !completed)
-                .map(task => (
-                  <Task key={task.id} {...task} handleDelete={handleDelete} />
-                ))
-            : ""}
+          {onHoldTasks.map(task => (
+            <Task
+              key={task.id}
+              task={task}
+              editID={editID}
+              setEditID={setEditID}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              deleteTaskState={deleteTaskState}
+            />
+          ))}
           <h3>Completed</h3>
-          {tasks.length
-            ? tasks
-                .filter(({ completed }) => completed)
-                .map(task => (
-                  <Task key={task.id} {...task} handleDelete={handleDelete} />
-                ))
-            : ""}
+          {completedTasks.map(task => (
+            <Task
+              key={task.id}
+              task={task}
+              editID={editID}
+              setEditID={setEditID}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              deleteTaskState={deleteTaskState}
+            />
+          ))}
         </div>
       )}
     </section>
