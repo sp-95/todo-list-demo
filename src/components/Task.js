@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
 
@@ -27,6 +27,25 @@ const Task = ({
     task["completed"] = target.checked
     handleEdit(task)
   }
+
+  const escFunction = useCallback(
+    ({ keyCode }) => {
+      if (keyCode === 27) {
+        setTaskTitle(title)
+        if (!title) deleteTaskState(id)
+        setEditID(null)
+      }
+    },
+    [id, title, deleteTaskState, setEditID]
+  )
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false)
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false)
+    }
+  }, [escFunction])
 
   return (
     <div className="task-container">
