@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
@@ -38,6 +38,25 @@ const TaskContainer = () => {
     setTasks(tasks)
     setEditID(taskToAdd.id)
   }
+
+  const escFunction = useCallback(
+    ({ keyCode }) => {
+      if (keyCode === 27) {
+        const editTask = tasks.find(task => task.id === editID)
+        if (!editTask.title) setTasks(tasks.filter(task => task.id !== editID))
+        setEditID(null)
+      }
+    },
+    [tasks, editID, setEditID]
+  )
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false)
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false)
+    }
+  }, [escFunction])
 
   var onHoldTasks, completedTasks
   if (tasks.length) {

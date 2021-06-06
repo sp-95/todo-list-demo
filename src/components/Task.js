@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useRef } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
 import { createTask, updateTask, deleteTask } from "../services"
@@ -42,24 +42,6 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
       console.log(error.message)
     }
   }
-
-  const escFunction = useCallback(
-    ({ keyCode }) => {
-      if (keyCode === 27) {
-        if (!title) fetchData()
-        setEditID(null)
-      }
-    },
-    [fetchData, setEditID]
-  )
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false)
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false)
-    }
-  }, [escFunction])
 
   return (
     <div className="task-container">
