@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
 
@@ -11,11 +11,12 @@ const Task = ({
   deleteTaskState,
 }) => {
   const { id, title, completed } = task
-  const [taskTitle, setTaskTitle] = useState(title)
+  const taskTitleRef = useRef(title)
 
   const handleTaskEdit = e => {
     e.preventDefault()
 
+    const taskTitle = taskTitleRef.current.value
     if (taskTitle) {
       task["title"] = taskTitle
       handleEdit(task)
@@ -31,7 +32,7 @@ const Task = ({
   const escFunction = useCallback(
     ({ keyCode }) => {
       if (keyCode === 27) {
-        setTaskTitle(title)
+        taskTitleRef.current.value = ""
         if (!title) deleteTaskState(id)
         setEditID(null)
       }
@@ -62,8 +63,7 @@ const Task = ({
               type="text"
               className="task-input"
               placeholder="Task Description"
-              value={taskTitle}
-              onChange={({ target }) => setTaskTitle(target.value)}
+              ref={taskTitleRef}
               autoFocus
             />
           </form>

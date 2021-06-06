@@ -14,7 +14,7 @@ const TaskContainer = () => {
   const fetchData = async () => {
     try {
       const data = await readTasks()
-      setTasks(data)
+      setTasks(data || [])
     } catch (error) {
       console.log(error.message)
     }
