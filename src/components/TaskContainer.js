@@ -22,9 +22,7 @@ const TaskContainer = () => {
     setLoading(false)
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useEffect(() => fetchData(), [])
 
   const handleAdd = () => {
     const taskToAdd = {
@@ -53,9 +51,7 @@ const TaskContainer = () => {
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false)
 
-    return () => {
-      document.removeEventListener("keydown", escFunction, false)
-    }
+    return () => document.removeEventListener("keydown", escFunction, false)
   }, [escFunction])
 
   var onHoldTasks, completedTasks
@@ -65,6 +61,12 @@ const TaskContainer = () => {
   } else {
     onHoldTasks = []
     completedTasks = []
+  }
+
+  const context = {
+    editID: editID,
+    setEditID: setEditID,
+    fetchData: fetchData,
   }
 
   return (
@@ -89,23 +91,11 @@ const TaskContainer = () => {
         <div className="task-list">
           <h3>On Hold</h3>
           {onHoldTasks.map(task => (
-            <Task
-              key={task.id}
-              task={task}
-              editID={editID}
-              setEditID={setEditID}
-              fetchData={fetchData}
-            />
+            <Task key={task.id} task={task} {...context} />
           ))}
           <h3>Completed</h3>
           {completedTasks.map(task => (
-            <Task
-              key={task.id}
-              task={task}
-              editID={editID}
-              setEditID={setEditID}
-              fetchData={fetchData}
-            />
+            <Task key={task.id} task={task} {...context} />
           ))}
         </div>
       )}
