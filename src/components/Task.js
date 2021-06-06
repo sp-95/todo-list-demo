@@ -43,6 +43,8 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
     }
   }
 
+  const editing = id === editID
+
   return (
     <div className="task-container">
       <div className={"task-item" + (completed ? " completed" : "")}>
@@ -51,8 +53,9 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
           className="task-status"
           checked={completed}
           onChange={handleCheck}
+          disabled={editing}
         />
-        {id === editID ? (
+        {editing ? (
           <form className="task-form" onSubmit={handleEdit}>
             <input
               type="text"
@@ -67,7 +70,11 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
           <p onDoubleClick={() => setEditID(id)}>{title}</p>
         )}
         <div>
-          <button className="delete-btn" onClick={() => handleDelete(id)}>
+          <button
+            className={"delete-btn" + (editing ? " disabled" : "")}
+            onClick={() => handleDelete(id)}
+            disabled={editing}
+          >
             <FaMinusCircle />
           </button>
         </div>

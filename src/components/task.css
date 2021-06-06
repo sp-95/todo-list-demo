@@ -22,6 +22,12 @@
 .delete-btn:hover {
   color: red;
 }
+.disabled {
+  color: gray;
+}
+.disabled:hover {
+  color: gray;
+}
 
 .completed {
   color: #dcd9d9;
