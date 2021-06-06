@@ -1,0 +1,34 @@
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 1rem;
+}
+
+.task-container hr {
+  border: 0.5px solid #e0e0e0;
+}
+
+.delete-btn {
+  background: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  margin: 0 0.15rem;
+}
+.delete-btn {
+  color: lightcoral;
+}
+.delete-btn:hover {
+  color: red;
+}
+.disabled {
+  color: gray;
+}
+.disabled:hover {
+  color: gray;
+}
+
+.completed {
+  color: #dcd9d9;
+}
