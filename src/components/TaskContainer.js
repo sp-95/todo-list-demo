@@ -3,7 +3,7 @@ import "./task_container.css"
 import Task from "./Task"
 import Loading from "./Loading"
 import { FaRegPlusSquare } from "react-icons/fa"
-import { createTask, deleteTask, readTasks, updateTask } from "../services"
+import { deleteTask, readTasks } from "../services"
 import { v4 as uuidv4 } from "uuid"
 
 const TaskContainer = () => {
@@ -12,6 +12,7 @@ const TaskContainer = () => {
   const [editID, setEditID] = useState(null)
 
   const fetchData = async () => {
+    setLoading(true)
     try {
       const data = await readTasks()
       setTasks(data || [])
@@ -36,26 +37,6 @@ const TaskContainer = () => {
     tasks.unshift(taskToAdd)
     setTasks(tasks)
     setEditID(taskToAdd.id)
-  }
-
-  const editTaskState = task => {
-    setTasks(tasks.map(t => (t.id === task.id ? task : t)))
-  }
-
-  const handleEdit = async task => {
-    try {
-      const data = await updateTask(task)
-      editTaskState(data)
-    } catch (error) {
-      if (error.response.status === 404) {
-        try {
-          const data = await createTask(task)
-          editTaskState(data)
-        } catch (error) {
-          console.log(error.message)
-        }
-      }
-    }
   }
 
   const deleteTaskState = id => setTasks(tasks.filter(task => task.id !== id))
@@ -105,9 +86,9 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              handleEdit={handleEdit}
               handleDelete={handleDelete}
               deleteTaskState={deleteTaskState}
+              fetchData={fetchData}
             />
           ))}
           <h3>Completed</h3>
@@ -117,9 +98,9 @@ const TaskContainer = () => {
               task={task}
               editID={editID}
               setEditID={setEditID}
-              handleEdit={handleEdit}
               handleDelete={handleDelete}
               deleteTaskState={deleteTaskState}
+              fetchData={fetchData}
             />
           ))}
         </div>

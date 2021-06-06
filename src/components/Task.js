@@ -1,38 +1,50 @@
 import React, { useCallback, useEffect, useRef } from "react"
 import { FaMinusCircle } from "react-icons/fa"
 import "./task.css"
+import { createTask, updateTask } from "../services"
 
 const Task = ({
   task,
   editID,
   setEditID,
-  handleEdit,
   handleDelete,
   deleteTaskState,
+  fetchData,
 }) => {
   const { id, title, completed } = task
   const taskTitleRef = useRef(title)
 
-  const handleTaskEdit = e => {
+  const handleEdit = async e => {
     e.preventDefault()
 
     const taskTitle = taskTitleRef.current.value
-    if (taskTitle) {
-      task["title"] = taskTitle
-      handleEdit(task)
+    if (taskTitle !== title) {
+      try {
+        task["title"] = taskTitle
+        if (title) await updateTask(task)
+        else await createTask(task)
+        fetchData()
+      } catch (error) {
+        console.log(error)
+      }
     } else if (!title) deleteTaskState(id)
     setEditID(null)
   }
 
-  const handleCheck = ({ target }) => {
-    task["completed"] = target.checked
-    handleEdit(task)
+  const handleCheck = async ({ target }) => {
+    try {
+      task["completed"] = target.checked
+      await updateTask(task)
+      fetchData()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const escFunction = useCallback(
     ({ keyCode }) => {
       if (keyCode === 27) {
-        taskTitleRef.current.value = ""
+        taskTitleRef.current = ""
         if (!title) deleteTaskState(id)
         setEditID(null)
       }
@@ -58,11 +70,12 @@ const Task = ({
           onChange={handleCheck}
         />
         {id === editID ? (
-          <form className="task-form" onSubmit={handleTaskEdit}>
+          <form className="task-form" onSubmit={handleEdit}>
             <input
               type="text"
               className="task-input"
               placeholder="Task Description"
+              defaultValue={title}
               ref={taskTitleRef}
               autoFocus
             />
