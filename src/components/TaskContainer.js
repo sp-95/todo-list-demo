@@ -84,9 +84,10 @@ const TaskContainer = () => {
         <h1>
           You've got{" "}
           <span className="num-tasks">
-            {tasks.length || "No"} task{tasks.length === 1 ? "" : "s"}
+            {onHoldTasks.length || "No"} task
+            {onHoldTasks.length === 1 ? "" : "s"}
           </span>{" "}
-          today
+          on hold
         </h1>
         <button className="add-btn" onClick={handleAdd}>
           <FaRegPlusSquare />
