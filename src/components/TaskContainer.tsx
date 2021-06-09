@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react"
-import "./task_container.css"
-import Task from "./Task"
-import Loading from "./Loading"
+import React from "react"
 import { FaRegPlusSquare } from "react-icons/fa"
-import { readTasks } from "../services"
 import { v4 as uuidv4 } from "uuid"
+import { readTasks } from "../services"
+import Loading from "./Loading"
+import "./styles/task_container.css"
+import Task from "./Task"
+import ITask from "./types/task"
 
 const TaskContainer = () => {
-  const [loading, setLoading] = useState(true)
-  const [tasks, setTasks] = useState([])
-  const [editID, setEditID] = useState(null)
+  const [loading, setLoading] = React.useState(true)
+  const [tasks, setTasks] = React.useState<Array<ITask>>([])
+  const [editID, setEditID] = React.useState<string | null>(null)
 
-  const fetchData = async () => {
+  async function fetchData() {
     setLoading(true)
     try {
       const data = await readTasks()
@@ -22,9 +23,11 @@ const TaskContainer = () => {
     setLoading(false)
   }
 
-  useEffect(() => fetchData(), [])
+  React.useEffect(() => {
+    fetchData()
+  }, [])
 
-  const handleAdd = () => {
+  function handleAdd() {
     const taskToAdd = {
       id: uuidv4(),
       title: "",
@@ -37,24 +40,25 @@ const TaskContainer = () => {
     setEditID(taskToAdd.id)
   }
 
-  const escFunction = useCallback(
+  const escFunction = React.useCallback(
     ({ keyCode }) => {
       if (keyCode === 27) {
         const editTask = tasks.find(task => task.id === editID)
-        if (!editTask.title) setTasks(tasks.filter(task => task.id !== editID))
+        if (!editTask?.title) setTasks(tasks.filter(task => task.id !== editID))
         setEditID(null)
       }
     },
     [tasks, editID, setEditID]
   )
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener("keydown", escFunction, false)
 
     return () => document.removeEventListener("keydown", escFunction, false)
   }, [escFunction])
 
-  var onHoldTasks, completedTasks
+  let onHoldTasks: Array<ITask>
+  let completedTasks: Array<ITask>
   if (tasks.length) {
     onHoldTasks = tasks.filter(({ completed }) => !completed)
     completedTasks = tasks.filter(({ completed }) => completed)
@@ -63,24 +67,18 @@ const TaskContainer = () => {
     completedTasks = []
   }
 
-  const context = {
-    editID: editID,
-    setEditID: setEditID,
-    fetchData: fetchData,
-  }
-
   return (
     <section className="task-container">
       <div className="title">
         <h1>
-          You've got{" "}
+          You&apos;ve got{" "}
           <span className="num-tasks">
             {onHoldTasks.length || "No"} task
             {onHoldTasks.length === 1 ? "" : "s"}
           </span>{" "}
           on hold
         </h1>
-        <button className="add-btn" onClick={handleAdd}>
+        <button type="button" className="add-btn" onClick={handleAdd}>
           <FaRegPlusSquare />
           &nbsp; Add New
         </button>
@@ -91,11 +89,23 @@ const TaskContainer = () => {
         <div className="task-list">
           <h3>On Hold</h3>
           {onHoldTasks.map(task => (
-            <Task key={task.id} task={task} {...context} />
+            <Task
+              key={task.id}
+              task={task}
+              editID={editID}
+              setEditID={setEditID}
+              fetchData={fetchData}
+            />
           ))}
           <h3>Completed</h3>
           {completedTasks.map(task => (
-            <Task key={task.id} task={task} {...context} />
+            <Task
+              key={task.id}
+              task={task}
+              editID={editID}
+              setEditID={setEditID}
+              fetchData={fetchData}
+            />
           ))}
         </div>
       )}

@@ -1,21 +1,31 @@
-import React, { useRef } from "react"
+import React from "react"
 import { FaMinusCircle } from "react-icons/fa"
-import "./task.css"
-import { createTask, updateTask, deleteTask } from "../services"
+import { createTask, deleteTask, updateTask } from "../services"
+import "./styles/task.css"
+import ITask from "./types/task"
 
-const Task = ({ task, editID, setEditID, fetchData }) => {
+interface ITaskProps {
+  task: ITask
+  editID: string | null
+  setEditID: React.Dispatch<React.SetStateAction<string | null>>
+  fetchData: () => Promise<void>
+}
+
+const Task = (props: ITaskProps) => {
+  const { task, editID, setEditID, fetchData } = props
   const { id, title, completed } = task
-  const taskTitleRef = useRef(title)
+  const taskTitleRef = React.useRef<HTMLInputElement>(null)
 
-  const handleEdit = async e => {
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (!taskTitleRef.current) return
     const taskTitle = taskTitleRef.current.value
     if (taskTitle !== title) {
       try {
-        task["title"] = taskTitle
-        if (title) await updateTask(task)
-        else await createTask(task)
+        const newTask = { ...task, title: taskTitle }
+        if (title) await updateTask(newTask)
+        else await createTask(newTask)
       } catch (error) {
         console.log(error.message)
       }
@@ -24,20 +34,20 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
     setEditID(null)
   }
 
-  const handleCheck = async ({ target }) => {
+  const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      task["completed"] = target.checked
-      await updateTask(task)
+      const newTask = { ...task, completed: e.target.checked }
+      await updateTask(newTask)
       fetchData()
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  const handleDelete = async id => {
+  const handleDelete = async () => {
     try {
       await deleteTask(id)
-      fetchData(id)
+      fetchData()
     } catch (error) {
       console.log(error.message)
     }
@@ -47,7 +57,7 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
 
   return (
     <div className="task-container">
-      <div className={"task-item" + (completed ? " completed" : "")}>
+      <div className={`task-item${completed ? " completed" : ""}`}>
         <input
           type="checkbox"
           className="task-status"
@@ -71,8 +81,9 @@ const Task = ({ task, editID, setEditID, fetchData }) => {
         )}
         <div>
           <button
-            className={"delete-btn" + (editing ? " disabled" : "")}
-            onClick={() => handleDelete(id)}
+            type="button"
+            className={`delete-btn${editing ? " disabled" : ""}`}
+            onClick={handleDelete}
             disabled={editing}
           >
             <FaMinusCircle />

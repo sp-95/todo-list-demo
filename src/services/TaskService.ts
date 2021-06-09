@@ -1,6 +1,7 @@
+import ITask from "../components/types/task"
 import axiosInstance from "../lib/axios"
 
-export const createTask = async task => {
+export async function createTask(task: ITask) {
   const { data } = await axiosInstance({
     url: "/tasks",
     method: "POST",
@@ -9,17 +10,17 @@ export const createTask = async task => {
   return data
 }
 
-export const readTask = async id => {
+export async function readTask(id: string) {
   const { data } = await axiosInstance({ url: `/tasks/${id}` })
   return data
 }
 
-export const readTasks = async () => {
+export async function readTasks() {
   const { data } = await axiosInstance({ url: "/tasks" })
   return data
 }
 
-export const updateTask = async task => {
+export async function updateTask(task: ITask) {
   const { data } = await axiosInstance({
     url: `/tasks/${task.id}`,
     method: "PUT",
@@ -28,7 +29,7 @@ export const updateTask = async task => {
   return data
 }
 
-export const deleteTask = async id => {
+export async function deleteTask(id: string) {
   const { data } = await axiosInstance({
     url: `/tasks/${id}`,
     method: "DELETE",
