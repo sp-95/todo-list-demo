@@ -43,8 +43,9 @@ const TaskContainer = () => {
   const escFunction = React.useCallback(
     ({ keyCode }) => {
       if (keyCode === 27) {
-        const editTask = tasks.find(task => task.id === editID)
-        if (!editTask?.title) setTasks(tasks.filter(task => task.id !== editID))
+        const editTask = tasks.find((task) => task.id === editID)
+        if (!editTask?.title)
+          setTasks(tasks.filter((task) => task.id !== editID))
         setEditID(null)
       }
     },
@@ -88,7 +89,7 @@ const TaskContainer = () => {
       ) : (
         <div className="task-list">
           <h3>On Hold</h3>
-          {onHoldTasks.map(task => (
+          {onHoldTasks.map((task) => (
             <Task
               key={task.id}
               task={task}
@@ -98,7 +99,7 @@ const TaskContainer = () => {
             />
           ))}
           <h3>Completed</h3>
-          {completedTasks.map(task => (
+          {completedTasks.map((task) => (
             <Task
               key={task.id}
               task={task}
