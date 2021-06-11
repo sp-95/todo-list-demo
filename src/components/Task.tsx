@@ -1,8 +1,8 @@
-import React from "react"
-import { FaMinusCircle } from "react-icons/fa"
-import { createTask, deleteTask, updateTask } from "../services"
-import "./styles/task.css"
-import ITask from "./types/task"
+import React from 'react'
+import { FaMinusCircle } from 'react-icons/fa'
+import { createTask, deleteTask, updateTask } from '../services'
+import './styles/task.css'
+import ITask from './types/task'
 
 interface ITaskProps {
   task: ITask
@@ -56,15 +56,9 @@ const Task = (props: ITaskProps) => {
   const editing = id === editID
 
   return (
-    <div className="task-container">
-      <div className={`task-item${completed ? " completed" : ""}`}>
-        <input
-          type="checkbox"
-          className="task-status"
-          checked={completed}
-          onChange={handleCheck}
-          disabled={editing}
-        />
+    <div>
+      <div className={`task-item${completed ? ' completed' : ''}`}>
+        <input type="checkbox" className="task-status" checked={completed} onChange={handleCheck} disabled={editing} />
         {editing ? (
           <form className="task-form" onSubmit={handleEdit}>
             <input
@@ -79,16 +73,14 @@ const Task = (props: ITaskProps) => {
         ) : (
           <p onDoubleClick={() => setEditID(id)}>{title}</p>
         )}
-        <div>
-          <button
-            type="button"
-            className={`delete-btn${editing ? " disabled" : ""}`}
-            onClick={handleDelete}
-            disabled={editing}
-          >
-            <FaMinusCircle />
-          </button>
-        </div>
+        <button
+          type="button"
+          className={`delete-btn${editing ? ' disabled' : ''}`}
+          onClick={handleDelete}
+          disabled={editing}
+        >
+          <FaMinusCircle />
+        </button>
       </div>
       <hr />
     </div>

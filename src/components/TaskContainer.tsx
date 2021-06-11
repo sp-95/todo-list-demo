@@ -1,11 +1,11 @@
-import React from "react"
-import { FaRegPlusSquare } from "react-icons/fa"
-import { v4 as uuidv4 } from "uuid"
-import { readTasks } from "../services"
-import Loading from "./Loading"
-import "./styles/task_container.css"
-import Task from "./Task"
-import ITask from "./types/task"
+import React from 'react'
+import { FaRegPlusSquare } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'
+import { readTasks } from '../services'
+import Loading from './Loading'
+import './styles/task.css'
+import Task from './Task'
+import ITask from './types/task'
 
 const TaskContainer = () => {
   const [loading, setLoading] = React.useState(true)
@@ -30,10 +30,10 @@ const TaskContainer = () => {
   function handleAdd() {
     const taskToAdd = {
       id: uuidv4(),
-      title: "",
+      title: '',
       completed: false,
-      status: "Pending",
-      priority: "Normal",
+      status: 'Pending',
+      priority: 'Normal',
     }
     tasks.unshift(taskToAdd)
     setTasks(tasks)
@@ -44,18 +44,17 @@ const TaskContainer = () => {
     ({ keyCode }) => {
       if (keyCode === 27) {
         const editTask = tasks.find((task) => task.id === editID)
-        if (!editTask?.title)
-          setTasks(tasks.filter((task) => task.id !== editID))
+        if (!editTask?.title) setTasks(tasks.filter((task) => task.id !== editID))
         setEditID(null)
       }
     },
-    [tasks, editID, setEditID]
+    [tasks, editID, setEditID],
   )
 
   React.useEffect(() => {
-    document.addEventListener("keydown", escFunction, false)
+    document.addEventListener('keydown', escFunction, false)
 
-    return () => document.removeEventListener("keydown", escFunction, false)
+    return () => document.removeEventListener('keydown', escFunction, false)
   }, [escFunction])
 
   let onHoldTasks: Array<ITask>
@@ -72,16 +71,16 @@ const TaskContainer = () => {
     <section className="task-container">
       <div className="title">
         <h1>
-          You&apos;ve got{" "}
+          You&apos;ve got{' '}
           <span className="num-tasks">
-            {onHoldTasks.length || "No"} task
-            {onHoldTasks.length === 1 ? "" : "s"}
-          </span>{" "}
+            {onHoldTasks.length || 'No'} task
+            {onHoldTasks.length === 1 ? '' : 's'}
+          </span>{' '}
           on hold
         </h1>
         <button type="button" className="add-btn" onClick={handleAdd}>
-          <FaRegPlusSquare />
-          &nbsp; Add New
+          <FaRegPlusSquare className="plus-sign" />
+          <span>&nbsp; Add New</span>
         </button>
       </div>
       {loading ? (
@@ -90,23 +89,11 @@ const TaskContainer = () => {
         <div className="task-list">
           <h3>On Hold</h3>
           {onHoldTasks.map((task) => (
-            <Task
-              key={task.id}
-              task={task}
-              editID={editID}
-              setEditID={setEditID}
-              fetchData={fetchData}
-            />
+            <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
           ))}
           <h3>Completed</h3>
           {completedTasks.map((task) => (
-            <Task
-              key={task.id}
-              task={task}
-              editID={editID}
-              setEditID={setEditID}
-              fetchData={fetchData}
-            />
+            <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
           ))}
         </div>
       )}
