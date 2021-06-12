@@ -4,6 +4,9 @@ interface ITask {
   completed: boolean
   status: string
   priority: string
+  dueDate: string,
+  createdDate: string,
+  modifiedDate: string,
 }
 
 export default ITask

@@ -1,5 +1,5 @@
 import ITask from '../components/types/task'
-import axiosInstance from '../lib/axios'
+import axiosInstance from '../utils/axios'
 
 export async function createTask(task: ITask) {
   const { data } = await axiosInstance({
