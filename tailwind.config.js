@@ -1,10 +1,16 @@
+const colors = require('tailwindcss/colors')
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: colors.purple,
+        secondary: colors.pink,
+      },
+    },
     container: {
       center: true,
       padding: {

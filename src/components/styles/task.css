@@ -1,6 +1,6 @@
 @layer components {
-  .purple-btn {
-    @apply bg-purple-700 hover:bg-purple-800 text-white px-8 py-2 rounded-lg inline-flex items-center;
+  .btn {
+    @apply bg-primary-700 hover:bg-primary-800 text-white px-8 py-2 rounded-lg inline-flex items-center;
   }
 
   .sub-container {

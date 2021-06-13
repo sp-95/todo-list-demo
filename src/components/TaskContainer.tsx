@@ -76,13 +76,13 @@ const TaskContainer = () => {
       <div className="flex flex-col items-center sm:flex-row">
         <h1 className="font-bold text-center my-4">
           You&apos;ve got{' '}
-          <span className="text-pink-500">
+          <span className="text-secondary-500">
             {onHoldTasks.length || 'No'} task
             {onHoldTasks.length === 1 ? '' : 's'}
           </span>{' '}
           on hold
         </h1>
-        <button type="button" className="purple-btn mx-6" onClick={handleAdd}>
+        <button type="button" className="btn mx-6" onClick={handleAdd}>
           <FaRegPlusSquare />
           <span className="text-xs">&nbsp; Add New</span>
         </button>
