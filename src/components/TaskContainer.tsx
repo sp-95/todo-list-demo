@@ -72,33 +72,37 @@ const TaskContainer = () => {
   }
 
   return (
-    <section className="task-container">
-      <div className="title">
-        <h1>
+    <section className="container">
+      <div className="flex flex-col items-center sm:flex-row">
+        <h1 className="font-bold text-center my-4">
           You&apos;ve got{' '}
-          <span className="num-tasks">
+          <span className="text-pink-500">
             {onHoldTasks.length || 'No'} task
             {onHoldTasks.length === 1 ? '' : 's'}
           </span>{' '}
           on hold
         </h1>
-        <button type="button" className="add-btn" onClick={handleAdd}>
-          <FaRegPlusSquare className="plus-sign" />
-          <span>&nbsp; Add New</span>
+        <button type="button" className="purple-btn mx-6" onClick={handleAdd}>
+          <FaRegPlusSquare />
+          <span className="text-xs">&nbsp; Add New</span>
         </button>
       </div>
       {loading ? (
         <Loading />
       ) : (
-        <div className="task-list">
-          <h3>On Hold</h3>
-          {onHoldTasks.map((task) => (
-            <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
-          ))}
-          <h3>Completed</h3>
-          {completedTasks.map((task) => (
-            <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
-          ))}
+        <div className="sub-container">
+          <h3 className="my-4">On Hold</h3>
+          <div>
+            {onHoldTasks.map((task) => (
+              <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
+            ))}
+          </div>
+          <h3 className="my-4">Completed</h3>
+          <div className="text-gray-300">
+            {completedTasks.map((task) => (
+              <Task key={task.id} task={task} editID={editID} setEditID={setEditID} fetchData={fetchData} />
+            ))}
+          </div>
         </div>
       )}
     </section>

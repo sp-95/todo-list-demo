@@ -1,8 +1,7 @@
 import React from "react"
-import "./styles/loading.css"
 
 const Loading = () => (
-  <div className="loading">
+  <div className="text-center">
     <h1>Loading...</h1>
   </div>
 )

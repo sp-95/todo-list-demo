@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaMinusCircle } from 'react-icons/fa'
+import { FaMinusCircle, FaRegCalendar } from 'react-icons/fa'
 import { createTask, deleteTask, updateTask } from '../services'
 import DateToday from '../utils/date'
 import './styles/task.css'
@@ -68,29 +68,36 @@ const Task = (props: ITaskProps) => {
 
   return (
     <div>
-      <div className={`task-item${completed ? ' completed' : ''}`}>
-        <input type="checkbox" className="task-status" checked={completed} onChange={handleCheck} disabled={editing} />
+      <div className="flex justify-between items-center my-4 space-x-2">
+        <input type="checkbox" checked={completed} onChange={handleCheck} disabled={editing} />
         {editing ? (
-          <form className="task-form" onSubmit={handleEdit}>
+          <form
+            className="w-full flex flex-col items-center space-y-2 sm:flex-row sm:justify-between sm:space-y-0 sm:space-x-2"
+            onSubmit={handleEdit}
+          >
             <input
               type="text"
-              className="task-input"
+              className="w-full p-1"
               placeholder="Task Description"
               defaultValue={title}
               ref={taskTitleRef}
               autoFocus
             />
-            <input className="task-due-date" type="date" defaultValue={dueDate} ref={taskDueDateRef} />
+            <input className="w-min" type="date" defaultValue={dueDate} ref={taskDueDateRef} />
           </form>
         ) : (
-          <div className="task-details">
-            <p onDoubleClick={handleDoubleClick}>{title}</p>
-            <span className="task-due-date">{dueDate}</span>
+          <div className="w-full flex flex-col items-center space-y-2 sm:flex-row sm:justify-between sm:space-y-0 sm:space-x-2">
+            <p className="self-start" onDoubleClick={handleDoubleClick}>
+              {title}
+            </p>
+            <span className="inline-flex items-center">
+              {dueDate}&nbsp; <FaRegCalendar />
+            </span>
           </div>
         )}
         <button
           type="button"
-          className={`delete-btn${editing ? ' disabled' : ''}`}
+          className="pl-2 text-red-500 hover:text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed"
           onClick={handleDelete}
           disabled={editing}
         >
