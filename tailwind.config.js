@@ -28,7 +28,9 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    forms,
+    forms({
+      strategy: 'class',
+    }),
     plugin(({ addBase, theme }) => {
       addBase({
         h1: { fontSize: theme('fontSize.3xl') },

@@ -69,7 +69,7 @@ const Task = (props: ITaskProps) => {
     <div>
       <div className="flex justify-between items-center my-4 space-x-2">
         <input
-          className="text-green-600"
+          className="form-checkbox text-green-600"
           type="checkbox"
           checked={completed}
           onChange={handleCheck}
@@ -82,13 +82,13 @@ const Task = (props: ITaskProps) => {
           >
             <input
               type="text"
-              className="w-full p-1"
+              className="form-input"
               placeholder="Task Description"
               defaultValue={title}
               ref={taskTitleRef}
               autoFocus
             />
-            <input className="w-min" type="date" defaultValue={dueDate} ref={taskDueDateRef} />
+            <input className="form-input w-min" type="date" defaultValue={dueDate} ref={taskDueDateRef} />
           </form>
         ) : (
           <div className="w-full flex flex-col items-center space-y-2 sm:flex-row sm:justify-between sm:space-y-0 sm:space-x-2">
