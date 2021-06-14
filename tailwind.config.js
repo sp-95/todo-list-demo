@@ -1,7 +1,9 @@
 const colors = require('tailwindcss/colors')
+const forms = require('@tailwindcss/forms')
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
+  mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -23,12 +25,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {
-      textColor: ['disabled'],
-      cursor: ['disabled'],
-    },
+    extend: {},
   },
   plugins: [
+    forms,
     plugin(({ addBase, theme }) => {
       addBase({
         h1: { fontSize: theme('fontSize.3xl') },

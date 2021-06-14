@@ -1,0 +1,31 @@
+@layer components {
+  .simple-form {
+    @apply border-gray-300 shadow-sm;
+  }
+  .simple-form:focus {
+    @apply border-primary-300 ring ring-primary-200 ring-opacity-50;
+  }
+
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
+  input[type='number'],
+  input[type='url'],
+  input[type='date'],
+  input[type='datetime-local'],
+  input[type='month'],
+  input[type='week'],
+  input[type='time'],
+  input[type='search'],
+  input[type='tel'],
+  select,
+  select[multiple],
+  textarea {
+    @apply simple-form mt-1 block w-full rounded-md;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    @apply simple-form rounded text-primary-600 focus:ring-offset-0;
+  }
+}

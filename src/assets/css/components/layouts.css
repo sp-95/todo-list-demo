@@ -1,0 +1,5 @@
+@layer components {
+  .sub-container {
+    @apply px-1 sm:px-2 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6;
+  }
+}

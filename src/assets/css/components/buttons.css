@@ -1,0 +1,16 @@
+@layer components {
+  .btn {
+    @apply text-white bg-primary-600 focus:outline-none flex justify-center items-center;
+  }
+  .btn:hover {
+    @apply bg-primary-700 shadow-lg;
+  }
+  
+  .round-btn {
+    @apply btn p-0 w-12 h-12 rounded-full;
+  }
+  
+  .icon-btn {
+    @apply btn px-5 py-2.5 rounded-md;
+  }
+}

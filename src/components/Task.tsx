@@ -2,7 +2,6 @@ import React from 'react'
 import { FaMinusCircle, FaRegCalendar } from 'react-icons/fa'
 import { createTask, deleteTask, updateTask } from '../services'
 import DateToday from '../utils/date'
-import './styles/common.css'
 import ITask from './types/task'
 
 interface ITaskProps {
@@ -69,7 +68,13 @@ const Task = (props: ITaskProps) => {
   return (
     <div>
       <div className="flex justify-between items-center my-4 space-x-2">
-        <input type="checkbox" checked={completed} onChange={handleCheck} disabled={editing} />
+        <input
+          className="text-green-600"
+          type="checkbox"
+          checked={completed}
+          onChange={handleCheck}
+          disabled={editing}
+        />
         {editing ? (
           <form
             className="w-full flex flex-col items-center space-y-2 sm:flex-row sm:justify-between sm:space-y-0 sm:space-x-2"

@@ -25,3 +25,5 @@ yarn-error.log*
 # Project specific
 .env
 data/
+dist/
+src/assets/main.css

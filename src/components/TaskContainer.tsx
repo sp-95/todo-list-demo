@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { readTasks } from '../services'
 import DateToday from '../utils/date'
 import Loading from './Loading'
-import './styles/common.css'
 import Task from './Task'
 import ITask from './types/task'
 
