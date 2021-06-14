@@ -2,7 +2,7 @@ import React from 'react'
 import { FaMinusCircle, FaRegCalendar } from 'react-icons/fa'
 import { createTask, deleteTask, updateTask } from '../services'
 import DateToday from '../utils/date'
-import './styles/task.css'
+import './styles/common.css'
 import ITask from './types/task'
 
 interface ITaskProps {

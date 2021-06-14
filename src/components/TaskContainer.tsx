@@ -1,10 +1,10 @@
 import React from 'react'
-import { FaRegPlusSquare } from 'react-icons/fa'
+import { FaPlus, FaRegPlusSquare } from 'react-icons/fa'
 import { v4 as uuidv4 } from 'uuid'
 import { readTasks } from '../services'
 import DateToday from '../utils/date'
 import Loading from './Loading'
-import './styles/task.css'
+import './styles/common.css'
 import Task from './Task'
 import ITask from './types/task'
 
@@ -82,7 +82,10 @@ const TaskContainer = () => {
           </span>{' '}
           on hold
         </h1>
-        <button type="button" className="btn mx-6" onClick={handleAdd}>
+        <button type="button" className="round-btn fixed bottom-10 right-10 sm:hidden" onClick={handleAdd}>
+          <FaPlus />
+        </button>
+        <button type="button" className="icon-btn mx-6 hidden sm:flex" onClick={handleAdd}>
           <FaRegPlusSquare />
           <span className="text-xs">&nbsp; Add New</span>
         </button>

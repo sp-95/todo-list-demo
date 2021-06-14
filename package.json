@@ -31,7 +31,7 @@
     "format": "prettier --write \"src/**/*.{ts, tsx, js, jsx}\"",
     "lint": "eslint --ext .tsx src",
     "lint:fix": "yarn lint --fix",
-    "pre-commit": "yarn format && yarn lint:fix && git add",
+    "pre-commit": "yarn format && yarn lint:fix && git add .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

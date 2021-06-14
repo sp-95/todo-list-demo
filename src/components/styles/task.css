@@ -1,9 +1,0 @@
-@layer components {
-  .btn {
-    @apply bg-primary-700 hover:bg-primary-800 text-white px-8 py-2 rounded-lg inline-flex items-center;
-  }
-
-  .sub-container {
-    @apply px-1 sm:px-2 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6;
-  }
-}
